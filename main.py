@@ -10,6 +10,10 @@ def home():
     return "Hello World!"
 
 
+@app.route("/system-check")
+def test():
+    return "Success"
+
 @app.route("/ner")
 def ner():
     result = get_ner_for_data()
