@@ -14,6 +14,7 @@ def home():
 def test():
     return "Success"
 
+
 @app.route("/ner")
 def ner():
     result = get_ner_for_data()
