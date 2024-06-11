@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import request
 
 from api.api_functions import *
 
@@ -15,9 +16,11 @@ def test():
     return "Success"
 
 
-@app.route("/ner")
+@app.route('/ner', methods=['POST'])
 def ner():
-    result = get_ner_for_data()
+    request_data = request.form.to_dict()
+    page = request_data['page']
+    result = get_ner_for_data(page)
     return result
 
 
