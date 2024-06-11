@@ -13,7 +13,7 @@ def run_ner_on_text(page):
         word = item.word
         ner = item.ner
         idx = item.idx
-        obj = {"word":word, "translation": "" , "ner":ner, "idx":idx}
+        obj = {"word": word, "translation": "", "ner": ner, "idx": idx}
 
         data.append(obj)
 
