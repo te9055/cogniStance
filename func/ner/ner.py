@@ -2,6 +2,7 @@ import torch
 from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger, CkipNerChunker
 from transformers import pipeline
 
+
 # Perform NER on Text
 def run_ner_on_text(page):
     ner_driver = CkipNerChunker(model="bert-base")
