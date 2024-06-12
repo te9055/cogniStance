@@ -16,6 +16,13 @@ def get_ner_for_data(page):
     return make_response(jsonify(result), 400)
 
 
-def get_usas_for_data():
-    result = run_usas_on_text()
-    return result
+# Perform USAS analysis on a file
+# TAKES XML text page
+# Returns NER results
+def get_usas_for_data(page):
+    result = run_usas_on_text(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
