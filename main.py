@@ -22,6 +22,7 @@ def test():
 @app.route('/ner', methods=['POST'])
 def ner():
     request_data = request.get_json()
+    print(request_data)
     page = request_data['page']
     result = get_ner_for_data(page)
     return result
