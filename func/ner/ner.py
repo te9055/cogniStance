@@ -14,6 +14,13 @@ def run_ner_on_text(page):
         word = item.word
         ner = item.ner
         idx = item.idx
+        print(type(idx))
+        print(idx)
+        print(type(ner))
+        print(ner)
+        print(type(word))
+        print(word)
+        print('--------')
         obj = {"word": word, "translation": "", "ner": ner, "idx": idx}
 
         data.append(obj)
