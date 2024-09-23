@@ -6,3 +6,4 @@ The current iteration of this tool focuses on the following types of analysis.
 
 - NER
 - USAS
+- Sentiment Analysis 

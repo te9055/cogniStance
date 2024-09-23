@@ -38,3 +38,13 @@ def usas():
     result = get_usas_for_data(page)
 
     return result
+
+@app.route("/sentiment", methods=['POST'])
+def sentiment():
+
+    request_data = request.get_json()
+    print(request_data)
+    page = request_data['page']
+    result = get_sentiment_for_data(page)
+
+    return result

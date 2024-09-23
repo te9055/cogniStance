@@ -1,6 +1,7 @@
 from flask import make_response, jsonify
 
 from func.ner.ner import *
+from func.sentiment.sentiment import *
 from func.usas.usas import *
 
 
@@ -18,9 +19,21 @@ def get_ner_for_data(page):
 
 # Perform USAS analysis on a file
 # TAKES XML text page
-# Returns NER results
+# Returns USAS results
 def get_usas_for_data(page):
     result = run_usas_on_text(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+
+# Perform Sentiment analysis on a file
+# TAKES XML text page
+# Returns Sentiment results
+def get_sentiment_for_data(page):
+    result = run_sentiment_on_text(page)
 
     if result["code"] == "SUCCESS":
         return make_response(jsonify(result), 201)
