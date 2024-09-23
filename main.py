@@ -11,7 +11,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
 def home():
-    return "Hello World!"
+    return "Success!"
 
 
 @app.route("/system-check")
@@ -23,17 +23,23 @@ def test():
 
 def ner():
     request_data = request.get_json()
-    #print(request_data)
     page = request_data['page']
     result = get_ner_for_data(page)
     return result
 
 
+@app.route("/translate", methods=['POST'])
+
+def translate():
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_translation_for_data(page)
+    return result
+
+
 @app.route("/usas", methods=['POST'])
 def usas():
-    print('hello')
     request_data = request.get_json()
-    print(request_data)
     page = request_data['page']
     result = get_usas_for_data(page)
 
@@ -43,7 +49,6 @@ def usas():
 def sentiment():
 
     request_data = request.get_json()
-    print(request_data)
     page = request_data['page']
     result = get_sentiment_for_data(page)
 
