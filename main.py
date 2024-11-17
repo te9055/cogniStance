@@ -53,3 +53,21 @@ def sentiment():
     result = get_sentiment_for_data(page)
 
     return result
+
+@app.route("/collocation", methods=['POST'])
+def collocation():
+
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_collocation_for_data(page)
+
+    return result
+
+@app.route("/concordance", methods=['POST'])
+def concordance():
+
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_concordance_for_data(page)
+
+    return result

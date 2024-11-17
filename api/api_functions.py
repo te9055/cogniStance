@@ -4,6 +4,8 @@ from func.ner.ner import *
 from func.sentiment.sentiment import *
 from func.translation.translation import run_translation_on_text
 from func.usas.usas import *
+from func.collocation.collocation import *
+from func.concordance.concordance import *
 
 
 # Perform NER on a file
@@ -52,3 +54,20 @@ def get_sentiment_for_data(page):
         return make_response(jsonify(result), 201)
 
     return make_response(jsonify(result), 400)
+
+def get_collocation_for_data(page):
+    result = run_collocation_on_text(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def get_concordance_for_data(page):
+    result = run_concordance_on_text(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+

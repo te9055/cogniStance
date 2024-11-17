@@ -25,9 +25,12 @@ def run_sentiment_on_text(page):
         res = nlp(p)[0]['label']
         counts[res] = counts.get(res, 0) + 1
 
+    if 'negative' not in counts.keys():
+        counts['negative'] = 0
+
     sentiments = []
     for k in counts.keys():
-        sentiments.append({"Sentiment": k, "Count": counts[k]})
+        sentiments.append({"0 Sentiment": k, "1 Count": counts[k]})
 
     result = {'output': sentiments, 'message': 'Done', 'code': 'SUCCESS'}
     return result
