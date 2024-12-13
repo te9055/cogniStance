@@ -12,6 +12,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS news
              (id integer primary key, title text, location text, pubyear text, pubdate text, websource text, loaddate text, content longtext)''')
 
 
+
 # Insert a row of data
 #cursor.execute("INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)")
 
