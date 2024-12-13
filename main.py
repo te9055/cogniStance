@@ -71,3 +71,21 @@ def concordance():
     result = get_concordance_for_data(page)
 
     return result
+
+@app.route("/multidatasets", methods=['POST'])
+def multidatasets():
+
+    #request_data = request.get_json()
+    #page = request_data['page']
+    result = run_multidatasets_all()
+
+    return result
+
+@app.route("/neroverall", methods=['POST'])
+def neroverall():
+
+    request_data = request.get_json()
+    page = request_data['page']
+    result = run_neroverall_all(page)
+
+    return result

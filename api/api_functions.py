@@ -6,7 +6,8 @@ from func.translation.translation import run_translation_on_text
 from func.usas.usas import *
 from func.collocation.collocation import *
 from func.concordance.concordance import *
-
+from func.mutlidatasets.multidatasets import *
+from func.neroverall.neroverall import *
 
 # Perform NER on a file
 # TAKES XML text page
@@ -70,4 +71,21 @@ def get_concordance_for_data(page):
         return make_response(jsonify(result), 201)
 
     return make_response(jsonify(result), 400)
+
+def run_multidatasets_all():
+    result = run_multidatasets()
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def run_neroverall_all(page):
+    result = run_neroverall_on_text(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
 

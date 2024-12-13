@@ -14,6 +14,7 @@ def run_usas_on_text(page):
             val = lineL[1].strip()
             d[key] = val
 
+
     # We exclude the following components as we do not need them.
     nlp = spacy.load('zh_core_web_sm', exclude=['parser', 'ner'])
     # Load the Chinese PyMUSAS rule-based tagger in a separate spaCy pipeline
@@ -31,6 +32,7 @@ def run_usas_on_text(page):
         idx = (start, end)
 
         for el in token._.pymusas_tags:
+            el = el.split('.')[0]
             #obj = {"word": token.text, "USAS Tags": el, "idx": idx}
             tags.append(el)
             #data.append(obj)
@@ -50,4 +52,5 @@ def run_usas_on_text(page):
     result = {'output': usas_tags_with_count, 'message': 'Done', 'code': 'SUCCESS'}
 
     return result
+
 
