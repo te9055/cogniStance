@@ -12,7 +12,7 @@ def run_multidatasets():
     data = []
     for row in res:
         print(row)
-        data.append({"0 Id": row[0], "1 Title": row[1], "2 Date": row[4],"3 Content":row[-1]})
+        data.append({"0 Title": row[1], "1 Date": row[4]})
 
 
 

@@ -8,6 +8,7 @@ from func.collocation.collocation import *
 from func.concordance.concordance import *
 from func.mutlidatasets.multidatasets import *
 from func.neroverall.neroverall import *
+from func.usasFine.usasFine import *
 
 # Perform NER on a file
 # TAKES XML text page
@@ -38,6 +39,14 @@ def get_translation_for_data(page):
 # Returns USAS results
 def get_usas_for_data(page):
     result = run_usas_on_text(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def get_usasFine_for_data(page):
+    result = run_usasFine_on_text(page)
 
     if result["code"] == "SUCCESS":
         return make_response(jsonify(result), 201)

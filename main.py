@@ -45,6 +45,14 @@ def usas():
 
     return result
 
+@app.route("/usasFine", methods=['POST'])
+def usasFine():
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_usasFine_for_data(page)
+
+    return result
+
 @app.route("/sentiment", methods=['POST'])
 def sentiment():
 

@@ -16,39 +16,42 @@ def run_neroverall_on_text(page):
         data.append([docid, content])
 
     ner_with_count = []
+    tags = []
+    ners = []
+    seen_words = []
+    seen_tags = []
+
     for i in range(0,len(data)):
         id = data[i][0]
         txt = data[i][1]
         ner = ner_driver([txt])
-        tags = []
+
         for item in ner[0]:
             word = item.word
             ner = item.ner
             tags.append(word + '__' + ner)
 
-        ners = []
 
-        seen_words = []
-        seen_tags = []
         for tag in tags:
             if tag not in seen_words:
                 ner = tag.split('__')[1].strip()
-
                 ners.append(ner)
 
             seen_words.append(tag)
 
         for n in ners:
             if n not in seen_tags:
-                freq = ners.count(n) / 1000000
-                ner_with_count.append({"0 Doc Id": id, "1 NER": n, "2 Frequency": freq})
+                freq = ners.count(n) / 1000
+                ner_with_count.append({"1 NER": n, "2 Frequency": freq})
 
             seen_tags.append(n)
 
-    #nerall = sorted(ner_with_count, key=lambda x: (x["0 Doc Id"],x["2 Frequency"]), reverse=True)
+    nerall = sorted(ner_with_count, key=lambda x: x["2 Frequency"], reverse=True)
 
-    result = {'output': ner_with_count,'message': 'Done', 'code': 'SUCCESS'}
+
+    result = {'output': nerall,'message': 'Done', 'code': 'SUCCESS'}
     
     return result
+
 
 

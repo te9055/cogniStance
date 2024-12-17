@@ -6,16 +6,16 @@ from db.db_config import get_db
 #page = '尼罗河 是一条流經非洲東部與北部的河流，與中非地區的剛果河、非洲南部的赞比西河以及西非地区的尼日尔河並列非洲最大的四個河流系統。'
 
 
-def run_usas_on_text(page):
+def run_usasFine_on_text(page):
     d = {}
-    with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_overall.txt') as f:
+    with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_desc.txt') as f:
         for line in f:
             lineL = line.replace('\n', '').split(' ', 1)
             key = lineL[0].strip()
             val = lineL[1].strip()
             d[key] = val
 
-
+    print(d)
     # We exclude the following components as we do not need them.
     nlp = spacy.load('zh_core_web_sm', exclude=['parser', 'ner'])
     # Load the Chinese PyMUSAS rule-based tagger in a separate spaCy pipeline
@@ -49,9 +49,11 @@ def run_usas_on_text(page):
             idx = (start, end)
 
             for el in token._.pymusas_tags:
-                el = el.split('.')[0][0]
+                el = el.split('.')[0]
                 #obj = {"word": token.text, "USAS Tags": el, "idx": idx}
-                tags.append(el)
+                #tags.append(el)
+                word = token.text
+                tags.append(word + '__' + el)
                 #data.append(obj)
 
 
@@ -60,21 +62,22 @@ def run_usas_on_text(page):
             if tag not in seen_tags:
                 try:
                     freq = tags.count(tag)/1000
+                    word = tag.split('__')[0]
+                    usas = tag.split('__')[1]
 
-                    usas_tags_with_count.append({"0 Tag": tag, "1 Definition":d[tag],"2 Frequency": freq})
+                    if 'A' in usas:
+                        tag_object = {"0 Word":word,"1 Discourse Field": usas, "2 Definition":d[usas],"3 Frequency": freq}
+
+                        usas_tags_with_count.append(tag_object)
+
                 except KeyError:
                     pass
             seen_tags.append(tag)
 
-    usas_tags_with_count_sorted = sorted(usas_tags_with_count, key=lambda x: x["2 Frequency"], reverse=True)
-
-
+    usas_tags_with_count_sorted = sorted(usas_tags_with_count, key=lambda x: x["3 Frequency"], reverse=False)[:30]
     result = {'output': usas_tags_with_count_sorted, 'message': 'Done', 'code': 'SUCCESS'}
 
     return result
-
-
-
 
 
 
