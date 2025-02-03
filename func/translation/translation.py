@@ -2,8 +2,9 @@ import html_to_json
 from shared.translate import translate
 
 
-# Perform NER on Text
+# Translate text
 def run_translation_on_text(page):
+    #print('page from translation.py: ',page)
     try:
         output_json = html_to_json.convert_tables(page)
         output = output_json[0]

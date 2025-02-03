@@ -7,6 +7,7 @@ from db.db_config import get_db
 
 
 def run_usasFine_on_text(page):
+    print('tag: ',page)
     d = {}
     with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_desc.txt') as f:
         for line in f:
@@ -15,7 +16,7 @@ def run_usasFine_on_text(page):
             val = lineL[1].strip()
             d[key] = val
 
-    print(d)
+    #print(d)
     # We exclude the following components as we do not need them.
     nlp = spacy.load('zh_core_web_sm', exclude=['parser', 'ner'])
     # Load the Chinese PyMUSAS rule-based tagger in a separate spaCy pipeline
@@ -65,7 +66,7 @@ def run_usasFine_on_text(page):
                     word = tag.split('__')[0]
                     usas = tag.split('__')[1]
 
-                    if 'A' in usas:
+                    if page in usas:
                         tag_object = {"0 Word":word,"1 Discourse Field": usas, "2 Definition":d[usas],"3 Frequency": freq}
 
                         usas_tags_with_count.append(tag_object)

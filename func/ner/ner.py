@@ -9,6 +9,7 @@ from db.db_config import get_db
 #page = '尼罗河 是一条流經非洲東部與北部的河流，與中非地區的剛果河、非洲南部的赞比西河以及西非地区的尼日尔河並列非洲最大的四個河流系統。'
 # Perform NER on Text
 def run_ner_on_text(page):
+    print('NER tag: ',page)
     ner_driver = CkipNerChunker(model="bert-base")
     conn, cursor = get_db()
     cursor.execute('SELECT * from news;')
@@ -41,7 +42,7 @@ def run_ner_on_text(page):
                 word = tag.split('__')[0]
                 ner = tag.split('__')[1]
                 #translation = translate(word).text
-                if ner == 'PERSON':
+                if ner == page:
                     ner_words_with_count.append({"0 Word": word, "1 NER": ner, "2 Frequency": freq})
             seen_words.append(tag)
 

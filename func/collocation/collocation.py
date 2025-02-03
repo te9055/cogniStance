@@ -1,6 +1,6 @@
 import spacy
 import math
-from shared.translate import translate
+#from shared.translate import translate
 import nltk
 from nltk.collocations import TrigramCollocationFinder
 from nltk.metrics import TrigramAssocMeasures
@@ -60,7 +60,7 @@ def run_collocation_on_text(page):
         itemstr = " ".join(i for i in item[0])
         if '部' in itemstr:
             itemstrnew = itemstr.replace('部','').strip().replace(' ','')
-            translation = translate(itemstr.replace('部','').strip()).text.lower()
+            #translation = translate(itemstr.replace('部','').strip()).text.lower()
             #print(translation)
             #print('--------------')
             score = round(item[1],3)

@@ -1,5 +1,5 @@
 import spacy
-from shared.translate import translate
+#from shared.translate import translate
 from wasabi import Printer
 from spacy.matcher import PhraseMatcher
 from db.db_config import get_db
@@ -50,7 +50,7 @@ def collocations():
         itemstr = " ".join(i for i in item[0])
         if '部' in itemstr:
             itemstrnew = itemstr
-            translation = translate(itemstr).text.lower()
+            #translation = translate(itemstr).text.lower()
             # print(translation)
             # print('--------------')
             score = round(item[1], 3)
@@ -65,6 +65,8 @@ def collocations():
 
 
 def run_concordance_on_text(page):
+    #print('page: ',page)
+    page = page+'部'
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
     cursor.execute('SELECT * from news;')
@@ -77,10 +79,13 @@ def run_concordance_on_text(page):
 
     concordances = []
     terms = collocations()
+
+    #terms = [page]
     for i in range(0, len(data)):
         id = data[i][0]
         txt = data[i][1]
         doc = nlp(txt)
+        #print('txt: ',txt)
 
 
         matcher = PhraseMatcher(nlp.vocab,attr='LOWER')
@@ -88,7 +93,7 @@ def run_concordance_on_text(page):
         matcher.add("TermCollocations", patterns)
 
         matches = matcher(doc)
-        match = Printer()
+        #match = Printer()
         for j, start, end in matches:
             perecedingSlice = doc[start - 20: start].text
             if '。' in perecedingSlice:
@@ -97,10 +102,13 @@ def run_concordance_on_text(page):
                 perecedingSlice = perecedingSlice.strip()
 
 
+
             #perecedingSliceTr = clean(translate(doc[start - 20: start]).text)
             matchedTerm = doc[start:end].text
+
+
             #matchedTerm = doc[start:end].text
-            matchedTermTr = match.text(translate(doc[start:end].text).text, color='red', no_print=True)
+            #matchedTermTr = match.text(translate(doc[start:end].text).text, color='red', no_print=True)
             #matchedTermTr = match.text(translate(doc[start:end].text).text)
             followingSlice = doc[end:end + 20].text
             #followingSliceTr = clean(translate(doc[end:end + 20]).text)
@@ -109,6 +117,7 @@ def run_concordance_on_text(page):
 
             #contextTr = perecedingSliceTr+', '+matchedTermTr+', '+followingSliceTr
             #concordances.append({"0 Term": escapeAnscii(matchedTerm), "1 Eng": escapeAnscii(matchedTermTr), "2 Context":escapeAnscii(context), "3 Context Eng":escapeAnscii(contextTr)})
+
             concordances.append({"0 Preceded By":perecedingSlice,"1 Term": matchedTerm, "2 Followed By": followingSlice})
 
 

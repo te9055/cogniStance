@@ -28,7 +28,7 @@ def ner():
     return result
 
 
-@app.route("/translate", methods=['POST'])
+@app.route("/translation", methods=['POST'])
 
 def translate():
     request_data = request.get_json()

@@ -10,6 +10,7 @@ def translate(word):
     translator = Translator()
 
     result = translator.translate(word, src='zh-cn', dest='en')
+    print('page from translate.py: ', result)
 
     return result
 
