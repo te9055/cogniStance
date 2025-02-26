@@ -9,6 +9,10 @@ from func.concordance.concordance import *
 from func.mutlidatasets.multidatasets import *
 from func.neroverall.neroverall import *
 from func.usasFine.usasFine import *
+from func.upload.upload import *
+from func.getdataset.getdataset import *
+from func.getfiles.getfiles import *
+from func.getallids.getallids import *
 
 # Perform NER on a file
 # TAKES XML text page
@@ -97,4 +101,35 @@ def run_neroverall_all(page):
 
     return make_response(jsonify(result), 400)
 
+def run_upload_all(page):
+    result = upload_file(page)
 
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def get_dataset_all(page):
+    result = get_dataset(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def get_files_all(page):
+    result = get_files(page)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+
+def get_dataset_ids():
+    result = get_all_dataset_ids()
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 200)
+
+    return make_response(jsonify(result), 400)

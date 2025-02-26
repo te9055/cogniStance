@@ -10,12 +10,13 @@ from db.db_config import get_db
 
 
 def run_collocation_on_text(page):
-
+    datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
     collocations = []
 
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
 
     data = []

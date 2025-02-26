@@ -16,8 +16,9 @@ def zng(paragraph):
 
 
 def run_sentiment_on_text(page):
+    datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "'+datasetid+'";')
     res = cursor.fetchall()
     data = []
     sentiments = []

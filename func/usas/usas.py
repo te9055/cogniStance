@@ -7,6 +7,8 @@ from db.db_config import get_db
 
 
 def run_usas_on_text(page):
+    print('usasoverall page old: ', page)
+    datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
     d = {}
     with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_overall.txt') as f:
         for line in f:
@@ -24,7 +26,8 @@ def run_usas_on_text(page):
     nlp.add_pipe('pymusas_rule_based_tagger', source=chinese_tagger_pipeline)
 
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "'+datasetid+'";')
     res = cursor.fetchall()
     data = []
 

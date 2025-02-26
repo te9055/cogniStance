@@ -97,3 +97,30 @@ def neroverall():
     result = run_neroverall_all(page)
 
     return result
+
+@app.route("/upload", methods=['POST'])
+def upload():
+
+    request_data = request.get_json()
+    page = request_data['page']
+    result = run_upload_all(page)
+
+    return result
+
+@app.route("/getdataset", methods=['POST'])
+def getdataset():
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_dataset_all(page)
+
+    return result
+
+
+@app.route("/getfiles", methods=['POST'])
+def getfiles():
+
+    request_data = request.get_json()
+    page = request_data['dataset_id']
+    result = get_files_all(page)
+
+    return result
