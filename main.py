@@ -124,3 +124,15 @@ def getfiles():
     result = get_files_all(page)
 
     return result
+
+@app.route("/nlpStance", methods=['POST'])
+def nlp_stance():
+
+    request_data = request.get_json()
+
+    result = run_nlp_stance(
+        table=request_data['table'],
+        dataset_id=request_data['dataset_id']
+    )
+
+    return result

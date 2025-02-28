@@ -1,6 +1,7 @@
 from flask import make_response, jsonify
 
 from func.ner.ner import *
+from func.nlp_stance.nlp_stance import run_nlp_stance_on_text
 from func.sentiment.sentiment import *
 from func.translation.translation import run_translation_on_text
 from func.usas.usas import *
@@ -131,5 +132,13 @@ def get_dataset_ids():
 
     if result["code"] == "SUCCESS":
         return make_response(jsonify(result), 200)
+
+    return make_response(jsonify(result), 400)
+
+def run_nlp_stance(table, dataset_id):
+    result = run_nlp_stance_on_text(table, dataset_id)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
 
     return make_response(jsonify(result), 400)
