@@ -6,3 +6,16 @@ flask-cors~=4.0.1
 spacy~=3.7.4
 googletrans ~=4.0.2
 pandas ~=2.2.3
+ollama~=0.4.7
+bertopic~=0.16.4
+jieba~=0.42.1
+polyglot~=16.7.4
+
+# Polyglot requirements (Polyglot doesn't install these automatically)
+wheel>=0.23.0
+PyICU>=1.8
+pycld2>=0.3
+six>=1.7.3
+futures>=2.1.6
+morfessor>=2.0.2a1
+numpy>=1.6.1

@@ -1,5 +1,7 @@
 from flask import make_response, jsonify
 
+from func.llm_summarization.llm_summarization import get_corpus_summary
+from func.topic_extraction.topic_extraction import run_topic_extraction_on
 from func.ner.ner import *
 from func.sentiment.sentiment import *
 from func.translation.translation import run_translation_on_text
@@ -13,6 +15,7 @@ from func.upload.upload import *
 from func.getdataset.getdataset import *
 from func.getfiles.getfiles import *
 from func.getallids.getallids import *
+from func.nlp_stance.nlp_stance import run_nlp_stance_on_text
 
 # Perform NER on a file
 # TAKES XML text page
@@ -131,5 +134,29 @@ def get_dataset_ids():
 
     if result["code"] == "SUCCESS":
         return make_response(jsonify(result), 200)
+
+    return make_response(jsonify(result), 400)
+
+def run_nlp_stance(table, dataset_id):
+    result = run_nlp_stance_on_text(table, dataset_id)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def run_llm_summarization(dataset_id):
+    result = get_corpus_summary(dataset_id)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
+
+    return make_response(jsonify(result), 400)
+
+def run_topic_extraction(summaries_table):
+    result = run_topic_extraction_on(summaries_table)
+
+    if result["code"] == "SUCCESS":
+        return make_response(jsonify(result), 201)
 
     return make_response(jsonify(result), 400)
