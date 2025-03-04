@@ -11,7 +11,7 @@ def run_usasFine_on_text(page):
     usastag = page.split('__')[0]
     datasetid = page.split('__')[1].split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
     d = {}
-    with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_desc.txt') as f:
+    with open('func/usas/usas_desc.txt') as f:
         for line in f:
             lineL = line.replace('\n', '').split(' ', 1)
             key = lineL[0].strip()

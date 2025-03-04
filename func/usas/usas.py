@@ -10,7 +10,7 @@ def run_usas_on_text(page):
     print('usasoverall page old: ', page)
     datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
     d = {}
-    with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_overall.txt') as f:
+    with open('func/usas/usas_overall.txt') as f:
         for line in f:
             lineL = line.replace('\n', '').split(' ', 1)
             key = lineL[0].strip()
