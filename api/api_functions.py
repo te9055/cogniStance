@@ -120,7 +120,7 @@ def get_dataset_all(page):
 def get_files_all(page):
     result = get_files(page)
 
-    if result["code"] == "SUCCESS":
+    if result["code"] == "SUCCESS" or result["code"] == "EMPTY":
         return make_response(jsonify(result), 201)
 
     return make_response(jsonify(result), 400)

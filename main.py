@@ -120,7 +120,7 @@ def getdataset():
 def getfiles():
 
     request_data = request.get_json()
-    page = request_data['dataset_id']
+    page = request_data['page']
     result = get_files_all(page)
 
     return result
