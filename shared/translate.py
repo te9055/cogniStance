@@ -3,13 +3,14 @@ import csv
 from os import listdir
 from os.path import isfile, join
 import time
+import asyncio
 
 
 # wrapper for the googletrans library. Takes in chinese string returns english
 def translate(word):
     translator = Translator()
 
-    result = translator.translate(word, src='zh-cn', dest='en')
+    result = asyncio.run(translator.translate(word, src='zh-cn', dest='en'))
     print('page from translate.py: ', result)
 
     return result
