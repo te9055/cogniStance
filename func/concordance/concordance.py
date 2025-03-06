@@ -8,12 +8,13 @@ from nltk.metrics import BigramAssocMeasures
 
 
 
-def collocations():
+def collocations(datasetid):
     collocations = []
 
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
 
     data = []
@@ -65,11 +66,13 @@ def collocations():
 
 
 def run_concordance_on_text(page):
-    #print('page: ',page)
-    page = page+'部'
+    datasetid = page.replace("<p>Collocations for the word '部' (department) for ",'').replace('</p>','').strip()
+    print('datasetid inside run_concordance_on_text: ',datasetid)
+    #page = page+'部'
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
     data = []
     for row in res:
@@ -78,7 +81,7 @@ def run_concordance_on_text(page):
         data.append([docid, content])
 
     concordances = []
-    terms = collocations()
+    terms = collocations(datasetid)
 
     #terms = [page]
     for i in range(0, len(data)):

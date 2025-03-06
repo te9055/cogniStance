@@ -9,7 +9,7 @@ def run_neroverall_on_text(page):
     print('neroverall page old: ',page)
     datasetid = page.split('><p>')[0].replace('<div id=','').replace('"','').strip()
     #output_json = html_to_json.convert_tables(page)
-    print('neroverall page: ',page)
+    print('neroverall datasetid: ',datasetid)
 
     ner_driver = CkipNerChunker(model="bert-base")
     conn, cursor = get_db()

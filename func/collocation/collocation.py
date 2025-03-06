@@ -11,6 +11,7 @@ from db.db_config import get_db
 
 def run_collocation_on_text(page):
     datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
+    print('dataset id in run_collocation_on_text: ',datasetid)
     collocations = []
 
     nlp = spacy.load('zh_core_web_sm')
@@ -22,6 +23,7 @@ def run_collocation_on_text(page):
     data = []
 
     for row in res:
+        print('row in collocation from db: ',row)
 
         docid = row[0]
 

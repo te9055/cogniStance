@@ -9,6 +9,7 @@ from db.db_config import get_db
 def run_usas_on_text(page):
     print('usasoverall page old: ', page)
     datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
+    print('usas overall datasetid: ', datasetid)
     d = {}
     with open('func/usas/usas_overall.txt') as f:
         for line in f:
