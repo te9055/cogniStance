@@ -1,0 +1,7 @@
+{
+  "model": "deepseek-r1:14b",
+  "prompts": [
+    {"role": "system", "content": "You are a helpful assistant that summarizes documents.\nFor each document I provide you, you should respond with a brief summary of the document.\nThe summary should be between 20 and 40 words in length. The summary MUST be in English."},
+    {"role": "user", "content": "{text}\n\n\nPlease provide an English summary of the text above using between 20 and 40 words."}
+  ]
+}

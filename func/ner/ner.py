@@ -10,9 +10,12 @@ from db.db_config import get_db
 # Perform NER on Text
 def run_ner_on_text(page):
     print('NER tag: ',page)
+    nertag = page.split('__')[0]
+    datasetid = page.split('__')[1].split('><p>')[0].replace('<div id=','').replace('"','').strip()
     ner_driver = CkipNerChunker(model="bert-base")
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from files;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
     data = []
     for row in res:
@@ -42,7 +45,7 @@ def run_ner_on_text(page):
                 word = tag.split('__')[0]
                 ner = tag.split('__')[1]
                 #translation = translate(word).text
-                if ner == page:
+                if ner == nertag:
                     ner_words_with_count.append({"0 Word": word, "1 NER": ner, "2 Frequency": freq})
             seen_words.append(tag)
 

@@ -97,3 +97,65 @@ def neroverall():
     result = run_neroverall_all(page)
 
     return result
+
+@app.route("/upload", methods=['POST'])
+def upload():
+
+    request_data = request.get_json()
+    page = request_data['page']
+    result = run_upload_all(page)
+
+    return result
+
+@app.route("/getdataset", methods=['POST'])
+def getdataset():
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_dataset_all(page)
+
+    return result
+
+
+@app.route("/getfiles", methods=['POST'])
+def getfiles():
+
+    request_data = request.get_json()
+    page = request_data['page']
+    result = get_files_all(page)
+
+    return result
+
+@app.route("/nlpStance", methods=['POST'])
+def nlp_stance():
+
+    request_data = request.get_json()
+
+    result = run_nlp_stance(
+        table=request_data['table'],
+        dataset_id=request_data['dataset_id']
+    )
+
+    return result
+
+@app.route("/llmSummarization", methods=['POST'])
+def llm_summarization():
+
+    request_data = request.get_json()
+
+    result = run_llm_summarization(
+        dataset_id=request_data['dataset_id']
+    )
+
+    return result
+
+
+@app.route("/topicExtraction", methods=['POST'])
+def topic_extraction():
+
+    request_data = request.get_json()
+
+    result = run_topic_extraction(
+        summaries_table=request_data['summaries_table']
+    )
+
+    return result
