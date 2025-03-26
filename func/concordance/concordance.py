@@ -5,15 +5,18 @@ from spacy.matcher import PhraseMatcher
 from db.db_config import get_db
 from nltk.collocations import BigramCollocationFinder
 from nltk.metrics import BigramAssocMeasures
+from googletrans import Translator
+import asyncio
 
 
 
-def collocations():
+def collocations(datasetid,word):
     collocations = []
 
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
 
     data = []
@@ -48,7 +51,8 @@ def collocations():
     # allscores = scoredbigrams+scoretrigrams
     for item in scoredbigrams:
         itemstr = " ".join(i for i in item[0])
-        if '部' in itemstr:
+        #if '部' in itemstr:
+        if word in itemstr:
             itemstrnew = itemstr
             #translation = translate(itemstr).text.lower()
             # print(translation)
@@ -65,11 +69,19 @@ def collocations():
 
 
 def run_concordance_on_text(page):
-    #print('page: ',page)
-    page = page+'部'
+    translator = Translator()
+    datasetid = page.replace('<p>Collocations for','').replace('for dataset','').replace('</p>','').split()[1].strip()
+    word = page.replace('<p>Collocations for','').replace('for dataset','').split()[0].strip()
+
+    wordch = asyncio.run(translator.translate(word, src='en', dest='zh-cn')).text.strip()
+
+    print('datasetid inside run_concordance_on_text: ',datasetid)
+    print('word inside run_concordance_on_text: ', wordch)
+    #page = page+'部'
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from news;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
     data = []
     for row in res:
@@ -78,7 +90,7 @@ def run_concordance_on_text(page):
         data.append([docid, content])
 
     concordances = []
-    terms = collocations()
+    terms = collocations(datasetid,wordch)
 
     #terms = [page]
     for i in range(0, len(data)):

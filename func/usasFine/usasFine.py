@@ -8,8 +8,10 @@ from db.db_config import get_db
 
 def run_usasFine_on_text(page):
     print('tag: ',page)
+    usastag = page.split('__')[0]
+    datasetid = page.split('__')[1].split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
     d = {}
-    with open('/Users/tom/PycharmProjects/cognistance/func/usas/usas_desc.txt') as f:
+    with open('func/usas/usas_desc.txt') as f:
         for line in f:
             lineL = line.replace('\n', '').split(' ', 1)
             key = lineL[0].strip()
@@ -25,11 +27,13 @@ def run_usasFine_on_text(page):
     nlp.add_pipe('pymusas_rule_based_tagger', source=chinese_tagger_pipeline)
 
     conn, cursor = get_db()
-    cursor.execute('SELECT * from news;')
+    #cursor.execute('SELECT * from files;')
+    cursor.execute('SELECT * from files where dataset_id = "' + datasetid + '";')
     res = cursor.fetchall()
     data = []
 
     for row in res:
+        print('row in usas fine: ',row)
         docid = row[0]
         content = row[-1].replace('\n', ' ').replace('\t', ' ')
         data.append([docid, content])
@@ -47,7 +51,7 @@ def run_usasFine_on_text(page):
 
         for token in output_doc:
             start, end = token._.pymusas_mwe_indexes[0]
-            idx = (start, end)
+            #idx = (start, end)
 
             for el in token._.pymusas_tags:
                 el = el.split('.')[0]
@@ -66,7 +70,8 @@ def run_usasFine_on_text(page):
                     word = tag.split('__')[0]
                     usas = tag.split('__')[1]
 
-                    if page in usas:
+                    if usastag in usas:
+                        print('before tag object: ',word)
                         tag_object = {"0 Word":word,"1 Discourse Field": usas, "2 Definition":d[usas],"3 Frequency": freq}
 
                         usas_tags_with_count.append(tag_object)
