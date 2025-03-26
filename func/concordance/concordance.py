@@ -5,10 +5,12 @@ from spacy.matcher import PhraseMatcher
 from db.db_config import get_db
 from nltk.collocations import BigramCollocationFinder
 from nltk.metrics import BigramAssocMeasures
+from googletrans import Translator
+import asyncio
 
 
 
-def collocations(datasetid):
+def collocations(datasetid,word):
     collocations = []
 
     nlp = spacy.load('zh_core_web_sm')
@@ -49,7 +51,8 @@ def collocations(datasetid):
     # allscores = scoredbigrams+scoretrigrams
     for item in scoredbigrams:
         itemstr = " ".join(i for i in item[0])
-        if '部' in itemstr:
+        #if '部' in itemstr:
+        if word in itemstr:
             itemstrnew = itemstr
             #translation = translate(itemstr).text.lower()
             # print(translation)
@@ -66,8 +69,14 @@ def collocations(datasetid):
 
 
 def run_concordance_on_text(page):
-    datasetid = page.replace("<p>Collocations for the word '部' (department) for ",'').replace('</p>','').strip()
+    translator = Translator()
+    datasetid = page.replace('<p>Collocations for','').replace('for dataset','').replace('</p>','').split()[1].strip()
+    word = page.replace('<p>Collocations for','').replace('for dataset','').split()[0].strip()
+
+    wordch = asyncio.run(translator.translate(word, src='en', dest='zh-cn')).text.strip()
+
     print('datasetid inside run_concordance_on_text: ',datasetid)
+    print('word inside run_concordance_on_text: ', wordch)
     #page = page+'部'
     nlp = spacy.load('zh_core_web_sm')
     conn, cursor = get_db()
@@ -81,7 +90,7 @@ def run_concordance_on_text(page):
         data.append([docid, content])
 
     concordances = []
-    terms = collocations(datasetid)
+    terms = collocations(datasetid,wordch)
 
     #terms = [page]
     for i in range(0, len(data)):

@@ -7,11 +7,25 @@ from nltk.metrics import TrigramAssocMeasures
 from nltk.collocations import BigramCollocationFinder
 from nltk.metrics import BigramAssocMeasures
 from db.db_config import get_db
-
+from googletrans import Translator
+import asyncio
 
 def run_collocation_on_text(page):
-    datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
-    print('dataset id in run_collocation_on_text: ',datasetid)
+    translator = Translator()
+    datasetid = page.split('__')[0]
+    inputstring = page.split('__')[1]
+    #detectlanguage = asyncio.run(translator.detect(inputstring))
+    #print('detected language: ',detectlanguage)
+    inputstringCh = asyncio.run(translator.translate(inputstring, src='en', dest='zh-cn')).text.strip()
+    #inputstringCh = translatech(inputstring).text.strip()
+    print('inputstring original: ',inputstring)
+    print('inputstringCh translated: ',inputstringCh)
+    print('-----------------------------')
+
+    #datasetid = page.split('><p>')[0].replace('<div id=', '').replace('"', '').strip()
+    #print('dataset id in run_collocation_on_text: ',datasetid)
+
+
     collocations = []
 
     nlp = spacy.load('zh_core_web_sm')
@@ -61,8 +75,11 @@ def run_collocation_on_text(page):
     #allscores = scoredbigrams+scoretrigrams
     for item in scoredbigrams:
         itemstr = " ".join(i for i in item[0])
-        if '部' in itemstr:
-            itemstrnew = itemstr.replace('部','').strip().replace(' ','')
+        #if '部' in itemstr:
+        if inputstringCh in itemstr:
+            #itemstrnew = itemstr.replace('部','').strip().replace(' ','')
+            itemstrnew = itemstr.replace(inputstringCh, '').strip().replace(' ', '')
+            #print('itemstrnew: ',itemstrnew)
             #translation = translate(itemstr.replace('部','').strip()).text.lower()
             #print(translation)
             #print('--------------')
